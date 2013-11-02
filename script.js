@@ -5,21 +5,24 @@
  *  Shows a "Hide Sidebar" or "Show Sidebar" to hide/show reddit's sidebar.
  */
 
-var showText = "Show Sidebar"
-var hideText = "Hide Sidebar"
+var showText = "Show Sidebar";
+var hideText = "Hide Sidebar";
+var contentMargin = $('div.content').css('margin-right');
 
 $('body').on('click', 'a#hslink', function() {
-    var text = $(this).text()
+    var text = $(this).text();
     if(text == hideText) {
-        $(this).text(showText)
-        $('div.side').hide()
+        $(this).text(showText);
+        $('div.side').hide();
+        removeMargin();
         localStorage['hideStatus'] = 'hide'
     } else {
-        $(this).text(hideText)
-        $('div.side').show()
-        localStorage['hideStatus'] = 'show'
+        $(this).text(hideText);
+        addMargin();
+        $('div.side').show();
+        localStorage['hideStatus'] = 'show';
     }
-    return false
+    return false;
 })
 
 var show = '<span id="hideSpan" class="showlink">'+
@@ -28,9 +31,19 @@ var show = '<span id="hideSpan" class="showlink">'+
 $("div#header-bottom-right").append('<span class="separator">|</span>');
 $("div#header-bottom-right").append(show);
 if (localStorage["hideStatus"] == "hide") {
-    $('div.side').hide()
-    $('#hslink').text(showText)
+    $('div.side').hide();
+    removeMargin();
+    $('#hslink').text(showText);
 } else {
-    $('#hslink').text(hideText)
+    $('#hslink').text(hideText);
 }
 
+function removeMargin() {
+    if(parseInt(contentMargin) > 50) {
+        $('div.content').css('margin-right', '0px', true);
+    }
+}
+
+function addMargin() {
+    $('div.content').css('margin-right', contentMargin, true);
+}

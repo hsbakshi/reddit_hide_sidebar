@@ -1,7 +1,7 @@
 {
    "manifest_version": 2,
    "content_scripts": [ {
-      "js": [ "jquery.min.js", "script.js" ],
+      "js": [ "jquery.min.js", "important.js", "script.js" ],
       "matches": [ "http://www.reddit.com/*" ]
    } ],
    "description": "Provides an option to hide the reddit sidebar.",
