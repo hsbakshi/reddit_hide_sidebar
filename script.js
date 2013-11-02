@@ -8,6 +8,7 @@
 var showText = "Show Sidebar";
 var hideText = "Hide Sidebar";
 var contentMargin = $('div.content').css('margin-right');
+var marginCutOff = 50;
 
 $('body').on('click', 'a#hslink', function() {
     var text = $(this).text();
@@ -39,11 +40,13 @@ if (localStorage["hideStatus"] == "hide") {
 }
 
 function removeMargin() {
-    if(parseInt(contentMargin) > 50) {
+    if(parseInt(contentMargin) > marginCutOff) {
         $('div.content').css('margin-right', '0px', true);
     }
 }
 
 function addMargin() {
-    $('div.content').css('margin-right', contentMargin, true);
+    if(parseInt(contentMargin) > marginCutOff) {
+        $('div.content').css('margin-right', contentMargin, true);
+    }
 }
