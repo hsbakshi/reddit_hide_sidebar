@@ -7,19 +7,22 @@
 
 var showText = "Show Sidebar";
 var hideText = "Hide Sidebar";
-var contentMargin = $('div.content').css('margin-right');
 var marginCutOff = 50;
+var contentLeft = $('div.content').css('margin-left');
+var contentRight = $('div.content').css('margin-right');
+var commentLeft = $('div.commentarea').css('margin-left');
+var commentRight = $('div.commentarea').css('margin-right');
 
 $('body').on('click', 'a#hslink', function() {
     var text = $(this).text();
     if(text == hideText) {
         $(this).text(showText);
         $('div.side').hide();
-        removeMargin();
+        removeMargins();
         localStorage['hideStatus'] = 'hide'
     } else {
         $(this).text(hideText);
-        addMargin();
+        addMargins();
         $('div.side').show();
         localStorage['hideStatus'] = 'show';
     }
@@ -33,20 +36,31 @@ $("div#header-bottom-right").append('<span class="separator">|</span>');
 $("div#header-bottom-right").append(show);
 if (localStorage["hideStatus"] == "hide") {
     $('div.side').hide();
-    removeMargin();
+    removeMargins();
     $('#hslink').text(showText);
 } else {
     $('#hslink').text(hideText);
 }
 
-function removeMargin() {
-    if(parseInt(contentMargin) > marginCutOff) {
-        $('div.content').css('margin-right', '0px', true);
-    }
+function removeMargins() {
+    setMargin('div.content', 'margin-left', '0px', contentLeft);
+    setMargin('div.content', 'margin-right', '0px', contentRight);
+    setMargin('div.commentarea', 'margin-left', '0px', commentLeft);
+    setMargin('div.commentarea', 'margin-right', '0px', commentRight);
 }
 
-function addMargin() {
-    if(parseInt(contentMargin) > marginCutOff) {
-        $('div.content').css('margin-right', contentMargin, true);
+function addMargins() {
+    setMargin('div.content', 'margin-left', contentLeft);
+    setMargin('div.content', 'margin-right', contentRight);
+    setMargin('div.commentarea', 'margin-left', commentLeft);
+    setMargin('div.commentarea', 'margin-right', commentRight);
+}
+
+function setMargin(selector, style, val, orig) {
+    if(typeof orig === "undefined") {
+        orig = val;
+    }
+    if(parseInt(orig) > marginCutOff) {
+        $(selector).css(style, val, true);
     }
 }
