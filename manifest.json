@@ -12,5 +12,5 @@
    "description": "Provides an option to hide the reddit sidebar.",
    "name": "Reddit Hide Sidebar",
    "update_url": "http://clients2.google.com/service/update2/crx",
-   "version": "0.4"
+   "version": "0.5"
 }
