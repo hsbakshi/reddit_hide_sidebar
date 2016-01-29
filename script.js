@@ -116,6 +116,7 @@ $('body').on('click', 'a#hlclink', function() {
 /* -- Lock/Unlock Sides --
 *  When 'hlclink' (see below) is clicked do this: */
 $('body').on('click', 'a#hblock', function() {
+    respond();
     /* Read whether the clicked-text says to hide */
     var text = $(this).text();
     if(text == lockSidesText) { lockSides(); }
