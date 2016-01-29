@@ -1,10 +1,9 @@
 /*
- *  Copyright 2010 Hrishikesh Bakshi
+ *  Original work Copyright 2010 Hrishikesh Bakshi
+ *  Modified work Copyright 2016 Daniel McKnight
  *  
  *  Reddit-Hide-Sidebar
- *  Shows a "Hide Sidebar" or "Show Sidebar" to hide/show reddit's sidebar.
- *  Responsively hides and shows the Sidebar and Listing-Chooser based on width.
- *  Responsiveness is disabled by "Lock Sides."
+ *  Responsively or manually hide Reddit's sidebar and listing-chooser.
  */
 
 var showSidebarText = "Show Sidebar";
