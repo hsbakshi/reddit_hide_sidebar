@@ -7,15 +7,11 @@
 
 var showSidebarText = "Show Sidebar";
 var hideSidebarText = "Hide Sidebar";
-var showListingText = "Show Listings";
-var hideListingText = "Hide Listings";
 var lockSidesText   = "Lock Sides";
 var unlockSidesText = "Unock Sides";
 var breakpoint = 800;
 var show = '<span class="separator">|</span>'+
     '<span id="hideSpan" class="showlink">'+
-    '<a id="hlclink" href=""></a></span>'+
-    '<span class="separator">|</span>'+
     '<a id="hslink" href=""></a></span>'+
     '<span class="separator">|</span>'+
     '<a id="hblock" href=""></a></span>';
@@ -32,8 +28,6 @@ function showSidebar() {
     localStorage['sidebarStatus'] = 'show';
 }
 function hideListingChooser() {
-    /* 1) change text, 2) hide */
-    $("a#hlclink").text(showListingText);
     $(document.body).addClass('listing-chooser-collapsed');
     /* listing-chooser status is notstored locally because
     *  user can also click on the listing-chooser tray
@@ -42,7 +36,6 @@ function hideListingChooser() {
     */
 }
 function showListingChooser() {
-    $("a#hlclink").text(hideListingText);
     $(document.body).removeClass('listing-chooser-collapsed');
 }
 function lockSides() {
@@ -93,8 +86,7 @@ $( window ).resize(function() {
     }
 });
 
-/* -- Show/Hide Sidebar --
-*  When 'hslink' (see below) is clicked do this: */
+/* -- Show/Hide Sidebar -- */
 $('body').on('click', 'a#hslink', function() {
     /* Read whether the clicked-text says to hide */
     var text = $(this).text();
@@ -103,18 +95,7 @@ $('body').on('click', 'a#hslink', function() {
     return false;
 });
 
-/* -- Show/Hide Listing-Chooser --
-*  When 'hlclink' (see below) is clicked do this: */
-$('body').on('click', 'a#hlclink', function() {
-    /* Read whether the clicked-text says to hide */
-    var text = $(this).text();
-    if(text == hideListingText) { hideListingChooser(); }
-        else { showListingChooser(); }
-    return false;
-});
-
-/* -- Lock/Unlock Sides --
-*  When 'hlclink' (see below) is clicked do this: */
+/* -- Lock/Unlock Sides -- */
 $('body').on('click', 'a#hblock', function() {
     respond();
     /* Read whether the clicked-text says to hide */
