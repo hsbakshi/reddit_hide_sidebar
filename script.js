@@ -3,6 +3,8 @@
  *  
  *  Reddit-Hide-Sidebar
  *  Shows a "Hide Sidebar" or "Show Sidebar" to hide/show reddit's sidebar.
+ *  Responsively hides and shows the Sidebar and Listing-Chooser based on width.
+ *  Responsiveness is disabled by "Lock Sides."
  */
 
 var showSidebarText = "Show Sidebar";
@@ -29,7 +31,7 @@ function showSidebar() {
 }
 function hideListingChooser() {
     $(document.body).addClass('listing-chooser-collapsed');
-    /* listing-chooser status is notstored locally because
+    /* listing-chooser status is not stored locally because
     *  user can also click on the listing-chooser tray
     *  status is checked below by seeing if 'body'
     *  has the 'listing-chooser-collapsed' class.
@@ -57,7 +59,6 @@ function respond() {
 }
 
 $( document ).ready(function() {
-    /* if sidebar status stored 'hide' then give option to 'show' */
     $("div#header-bottom-right").append(show);
     
     $('#hblock').text(lockSidesText);
@@ -98,7 +99,7 @@ $('body').on('click', 'a#hslink', function() {
 /* -- Lock/Unlock Sides -- */
 $('body').on('click', 'a#hblock', function() {
     respond();
-    /* Read whether the clicked-text says to hide */
+    /* Read whether the clicked-text says to lock */
     var text = $(this).text();
     if(text == lockSidesText) { lockSides(); }
         else { unlockSides(); }
