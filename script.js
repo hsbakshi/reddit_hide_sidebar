@@ -9,6 +9,12 @@ var showSidebarText = "Show Sidebar";
 var hideSidebarText = "Hide Sidebar";
 var showListingText = "Show Listing-Chooser";
 var hideListingText = "Hide Listing-Chooser";
+var breakpoint = 800;
+var show = '<span class="separator">|</span>'+
+    '<span id="hideSpan" class="showlink">'+
+    '<a id="hlclink" href=""></a></span>'+
+    '<span class="separator">|</span>'+
+    '<a id="hslink" href=""></a></span>';
 
 function hideSidebar() {
     /* 1) change text, 2) hide, 3) set status */
@@ -39,6 +45,23 @@ function showListingChooser() {
     $(document.body).removeClass('listing-chooser-collapsed');
 }
 
+$( document ).ready(function() {
+    /* if sidebar status stored 'hide' then give option to 'show' */
+    $("div#header-bottom-right").append(show);
+    if (localStorage["sidebarStatus"] == "hide") {
+        $('div.side').hide(); /* Needed to implement state on refresh */
+        $('#hslink').text(showSidebarText);
+    } else {
+        $('#hslink').text(hideSidebarText);
+    }
+    /* if listing-chooser is collapsed then give option to 'show' */
+    if ($("body").hasClass('listing-chooser-collapsed')) {
+        $('#hlclink').text(showListingText);
+    } else {
+        $('#hlclink').text(hideListingText);
+    }
+});
+
 /* -- Show/Hide Sidebar --
 *  When 'hslink' (see below) is clicked do this: */
 $('body').on('click', 'a#hslink', function() {
@@ -58,26 +81,3 @@ $('body').on('click', 'a#hlclink', function() {
         else { showListingChooser(); }
     return false;
 });
-
-/* Show Links */
-var show = '<span class="separator">|</span>'+
-    '<span id="hideSpan" class="showlink">'+
-    '<a id="hlclink" href=""></a></span>'+
-    '<span class="separator">|</span>'+
-    '<a id="hslink" href=""></a></span>';
-
-
-/* if sidebar status stored 'hide' then give option to 'show' */
-$("div#header-bottom-right").append(show);
-if (localStorage["sidebarStatus"] == "hide") {
-    $('div.side').hide(); /* Needed to implement state on refresh */
-    $('#hslink').text(showSidebarText);
-} else {
-    $('#hslink').text(hideSidebarText);
-}
-/* if listing-chooser is collapsed then give option to 'show' */
-if ($("body").hasClass('listing-chooser-collapsed')) {
-    $('#hlclink').text(showListingText);
-} else {
-    $('#hlclink').text(hideListingText);
-}
