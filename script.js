@@ -13,7 +13,7 @@ var unlockSidebarText = "Unlock Sidebar";
 var breakpoint = 768;
 var show = '<span class="separator">|</span>'+
     '<span id="hideSpan" class="showlink">'+
-    '<a id="sidebarLock" href=""></a></span>'+
+    '<a id="lockLink" href=""></a></span>'+
     '<span class="separator">|</span>'+
     '<a id="hslink" href=""></a></span>';
 
@@ -29,12 +29,12 @@ function showSidebar() {
     localStorage['sidebarStatus'] = 'show';
 }
 function lockSidebar() {
-    $("a#sidebarLock").text(unlockSidebarText);
-    localStorage["sides"] = "locked";
+    $("a#lockLink").text(unlockSidebarText);
+    localStorage["lockStatus"] = "locked";
 }
 function unlockSidebar() {
-    $("a#sidebarLock").text(lockSidebarText);
-    localStorage["sides"] = "unlocked";
+    $("a#lockLink").text(lockSidebarText);
+    localStorage["lockStatus"] = "unlocked";
 }
 function respond() {
     if ($( window ).width() < breakpoint) {
@@ -47,8 +47,8 @@ function respond() {
 $( document ).ready(function() {
     $("div#header-bottom-right").append(show);
     
-    $('#sidebarLock').text(lockSidebarText);
-    if (localStorage["sides"] == "unlocked") {
+    $('#lockLink').text(lockSidebarText);
+    if (localStorage["lockStatus"] == "unlocked") {
         respond();
     } else {
         if (localStorage["sidebarStatus"] == "hide") {
@@ -63,7 +63,7 @@ $( document ).ready(function() {
 });
 
 $( window ).resize(function() {
-    if (localStorage["sides"] == "unlocked") {
+    if (localStorage["lockStatus"] == "unlocked") {
         respond();
     }
 });
@@ -78,7 +78,7 @@ $('body').on('click', 'a#hslink', function() {
 });
 
 /* -- Lock/Unlock Sidebar -- */
-$('body').on('click', 'a#sidebarLock', function() {
+$('body').on('click', 'a#lockLink', function() {
     /* Read whether the clicked-text says to lock */
     var text = $(this).text();
     if(text == lockSidebarText) {
