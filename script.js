@@ -3,19 +3,19 @@
  *  Modified work Copyright 2016 Daniel McKnight
  *  
  *  Reddit-Hide-Sidebar
- *  Responsively or manually hide Reddit's sidebar and listing-chooser.
+ *  Responsively or manually hide Reddit's sidebar.
  */
 
 var showSidebarText = "Show Sidebar";
 var hideSidebarText = "Hide Sidebar";
-var lockSidesText   = "Lock Sides";
-var unlockSidesText = "Unock Sides";
-var breakpoint = 800;
+var lockSidesText   = "Lock Sidebar";
+var unlockSidesText = "Unock Sidebar";
+var breakpoint = 768;
 var show = '<span class="separator">|</span>'+
     '<span id="hideSpan" class="showlink">'+
     '<a id="hslink" href=""></a></span>'+
     '<span class="separator">|</span>'+
-    '<a id="hblock" href=""></a></span>';
+    '<a id="sidebarLock" href=""></a></span>';
 
 function hideSidebar() {
     /* 1) change text, 2) hide, 3) set status */
@@ -28,39 +28,26 @@ function showSidebar() {
     $('div.side').show();
     localStorage['sidebarStatus'] = 'show';
 }
-function hideListingChooser() {
-    $(document.body).addClass('listing-chooser-collapsed');
-    /* listing-chooser status is not stored locally because
-    *  user can also click on the listing-chooser tray
-    *  status is checked below by seeing if 'body'
-    *  has the 'listing-chooser-collapsed' class.
-    */
-}
-function showListingChooser() {
-    $(document.body).removeClass('listing-chooser-collapsed');
-}
 function lockSides() {
-    $("a#hblock").text(unlockSidesText);
+    $("a#sidebarLock").text(unlockSidesText);
     localStorage["sides"] = "locked";
 }
 function unlockSides() {
-    $("a#hblock").text(lockSidesText);
+    $("a#sidebarLock").text(lockSidesText);
     localStorage["sides"] = "unlocked";
 }
 function respond() {
     if ($( window ).width() < breakpoint) {
         hideSidebar();
-        hideListingChooser();
     } else {
         showSidebar();
-        showListingChooser();
     }
 }
 
 $( document ).ready(function() {
     $("div#header-bottom-right").append(show);
     
-    $('#hblock').text(lockSidesText);
+    $('#sidebarLock').text(lockSidesText);
     if (localStorage["sides"] == "unlocked") {
         respond();
     } else {
@@ -70,11 +57,6 @@ $( document ).ready(function() {
         } else {
             showSidebar();
             $('#hslink').text(hideSidebarText);
-        }
-        if ($("body").hasClass('listing-chooser-collapsed')) {
-            $('#hlclink').text(showListingText);
-        } else {
-            $('#hlclink').text(hideListingText);
         }
     }
 
@@ -95,8 +77,8 @@ $('body').on('click', 'a#hslink', function() {
     return false;
 });
 
-/* -- Lock/Unlock Sides -- */
-$('body').on('click', 'a#hblock', function() {
+/* -- Lock/Unlock Sidebar -- */
+$('body').on('click', 'a#sidebarLock', function() {
     respond();
     /* Read whether the clicked-text says to lock */
     var text = $(this).text();
