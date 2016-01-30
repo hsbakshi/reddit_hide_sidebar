@@ -1,36 +1,91 @@
 /*
- *  Copyright 2010 Hrishikesh Bakshi
+ *  Original work Copyright 2010 Hrishikesh Bakshi
+ *  Modified work Copyright 2016 Daniel McKnight
  *  
  *  Reddit-Hide-Sidebar
- *  Shows a "Hide Sidebar" or "Show Sidebar" to hide/show reddit's sidebar.
+ *  Responsively or manually hide Reddit's sidebar.
  */
 
-var showText = "Show Sidebar"
-var hideText = "Hide Sidebar"
-
-$('body').on('click', 'a#hslink', function() {
-    var text = $(this).text()
-    if(text == hideText) {
-        $(this).text(showText)
-        $('div.side').hide()
-        localStorage['hideStatus'] = 'hide'
-    } else {
-        $(this).text(hideText)
-        $('div.side').show()
-        localStorage['hideStatus'] = 'show'
-    }
-    return false
-})
-
-var show = '<span id="hideSpan" class="showlink">'+
+var showSidebarText = "Show Sidebar";
+var hideSidebarText = "Hide Sidebar";
+var lockSidebarText   = "Lock Sidebar";
+var unlockSidebarText = "Unlock Sidebar";
+var breakpoint = 768;
+var show = '<span class="separator">|</span>'+
+    '<span id="hideSpan" class="showlink">'+
+    '<a id="lockLink" href=""></a></span>'+
+    '<span class="separator">|</span>'+
     '<a id="hslink" href=""></a></span>';
 
-$("div#header-bottom-right").append('<span class="separator">|</span>');
-$("div#header-bottom-right").append(show);
-if (localStorage["hideStatus"] == "hide") {
-    $('div.side').hide()
-    $('#hslink').text(showText)
-} else {
-    $('#hslink').text(hideText)
+function hideSidebar() {
+    /* 1) change text, 2) hide, 3) set status */
+    $("a#hslink").text(showSidebarText);
+    $('div.side').hide();
+    localStorage['sidebarStatus'] = 'hide';
+}
+function showSidebar() {
+    $("a#hslink").text(hideSidebarText);
+    $('div.side').show();
+    localStorage['sidebarStatus'] = 'show';
+}
+function lockSidebar() {
+    $("a#lockLink").text(unlockSidebarText);
+    localStorage["lockStatus"] = "locked";
+}
+function unlockSidebar() {
+    $("a#lockLink").text(lockSidebarText);
+    localStorage["lockStatus"] = "unlocked";
+}
+function respond() {
+    if ($( window ).width() < breakpoint) {
+        hideSidebar();
+    } else {
+        showSidebar();
+    }
 }
 
+$( document ).ready(function() {
+    $("div#header-bottom-right").append(show);
+    
+    $('#lockLink').text(lockSidebarText);
+    if (localStorage["lockStatus"] == "unlocked") {
+        respond();
+    } else {
+        if (localStorage["sidebarStatus"] == "hide") {
+            hideSidebar();
+            $('#hslink').text(showSidebarText);
+        } else {
+            showSidebar();
+            $('#hslink').text(hideSidebarText);
+        }
+    }
+
+});
+
+$( window ).resize(function() {
+    if (localStorage["lockStatus"] == "unlocked") {
+        respond();
+    }
+});
+
+/* -- Show/Hide Sidebar -- */
+$('body').on('click', 'a#hslink', function() {
+    /* Read whether the clicked-text says to hide */
+    var text = $(this).text();
+    if(text == hideSidebarText) { hideSidebar(); }
+        else { showSidebar(); }
+    return false;
+});
+
+/* -- Lock/Unlock Sidebar -- */
+$('body').on('click', 'a#lockLink', function() {
+    /* Read whether the clicked-text says to lock */
+    var text = $(this).text();
+    if(text == lockSidebarText) {
+    	lockSidebar();
+    } else {
+       	unlockSidebar();
+       	respond();
+    }
+    return false;
+});
