@@ -8,14 +8,14 @@
 
 var showSidebarText = "Show Sidebar";
 var hideSidebarText = "Hide Sidebar";
-var lockSidesText   = "Lock Sidebar";
-var unlockSidesText = "Unock Sidebar";
+var lockSidebarText   = "Lock Sidebar";
+var unlockSidebarText = "Unlock Sidebar";
 var breakpoint = 768;
 var show = '<span class="separator">|</span>'+
     '<span id="hideSpan" class="showlink">'+
-    '<a id="hslink" href=""></a></span>'+
+    '<a id="sidebarLock" href=""></a></span>'+
     '<span class="separator">|</span>'+
-    '<a id="sidebarLock" href=""></a></span>';
+    '<a id="hslink" href=""></a></span>';
 
 function hideSidebar() {
     /* 1) change text, 2) hide, 3) set status */
@@ -28,12 +28,12 @@ function showSidebar() {
     $('div.side').show();
     localStorage['sidebarStatus'] = 'show';
 }
-function lockSides() {
-    $("a#sidebarLock").text(unlockSidesText);
+function lockSidebar() {
+    $("a#sidebarLock").text(unlockSidebarText);
     localStorage["sides"] = "locked";
 }
-function unlockSides() {
-    $("a#sidebarLock").text(lockSidesText);
+function unlockSidebar() {
+    $("a#sidebarLock").text(lockSidebarText);
     localStorage["sides"] = "unlocked";
 }
 function respond() {
@@ -47,7 +47,7 @@ function respond() {
 $( document ).ready(function() {
     $("div#header-bottom-right").append(show);
     
-    $('#sidebarLock').text(lockSidesText);
+    $('#sidebarLock').text(lockSidebarText);
     if (localStorage["sides"] == "unlocked") {
         respond();
     } else {
@@ -82,7 +82,7 @@ $('body').on('click', 'a#sidebarLock', function() {
     respond();
     /* Read whether the clicked-text says to lock */
     var text = $(this).text();
-    if(text == lockSidesText) { lockSides(); }
-        else { unlockSides(); }
+    if(text == lockSidebarText) { lockSidebar(); }
+        else { unlockSidebar(); }
     return false;
 });
