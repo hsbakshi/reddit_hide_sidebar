@@ -79,10 +79,13 @@ $('body').on('click', 'a#hslink', function() {
 
 /* -- Lock/Unlock Sidebar -- */
 $('body').on('click', 'a#sidebarLock', function() {
-    respond();
     /* Read whether the clicked-text says to lock */
     var text = $(this).text();
-    if(text == lockSidebarText) { lockSidebar(); }
-        else { unlockSidebar(); }
+    if(text == lockSidebarText) {
+    	lockSidebar();
+    } else {
+       	unlockSidebar();
+       	respond();
+    }
     return false;
 });
